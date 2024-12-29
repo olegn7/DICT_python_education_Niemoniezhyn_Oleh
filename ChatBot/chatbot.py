@@ -19,3 +19,16 @@ num = 4
 for i in range(num + 1):
     print(f"{i} !")
 print("Completed, have a nice day!")
+print("Let's test your programming knowledge.")
+print("What is a line called?")
+print("1. Character set")
+print("2. Set of numbers")
+print("3. Expression")
+print("4. Code snippet")
+while True:
+    answer = int(input("> "))
+    if answer == 4:
+        print("Congratulations, have a nice day!")
+        break
+    else:
+        print("Please, try again.")
