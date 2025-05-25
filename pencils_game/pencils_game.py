@@ -79,3 +79,56 @@ while pencils > 0:
         break
 
     current_player = players[1] if current_player == players[0] else players[0]
+import random
+
+def bot_move(pencils):
+    if pencils % 4 == 0:
+        return random.randint(1, 3)
+    else:
+        return pencils % 4
+
+names = ["John", "Jack"]
+while True:
+    pencils = input("How many pencils would you like to use:\n")
+    if not pencils.isdigit():
+        print("The number of pencils should be numeric")
+        continue
+    pencils = int(pencils)
+    if pencils <= 0:
+        print("The number of pencils should be positive")
+        continue
+    break
+
+while True:
+    first = input(f"Who will be the first ({names[0]}, {names[1]}):\n")
+    if first not in names:
+        print(f"Choose between '{names[0]}' and '{names[1]}'")
+        continue
+    break
+
+print("|" * pencils)
+
+current = first
+while pencils > 0:
+    if current == "Jack":  # бот
+        take = bot_move(pencils)
+        print(f"Jack's turn:")
+        print(take)
+    else:
+        print(f"{current}'s turn:")
+        while True:
+            take = input()
+            if take not in ["1", "2", "3"]:
+                print("Possible values: '1', '2' or '3'")
+                continue
+            take = int(take)
+            if take > pencils:
+                print("Too many pencils were taken")
+                continue
+            break
+    pencils -= take
+    if pencils == 0:
+        print(f"{'Jack' if current == 'John' else 'John'} won!")
+        break
+    print("|" * pencils)
+    current = "Jack" if current == "John" else "John"
