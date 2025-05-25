@@ -18,3 +18,22 @@ while True:
 
 print("|" * pencils)
 print(f"{first} is going first!")
+def main():
+    pencils = int(input("How many pencils would you like to use:\n> "))
+    first_player = input("Who will be the first (John, Jack):\n> ")
+
+    print('|' * pencils)
+    current_player = first_player
+
+    while pencils > 0:
+        print(f"{current_player}'s turn:")
+        take = int(input("> "))
+        pencils -= take
+        if pencils == 0:
+            break
+        print('|' * pencils)
+        current_player = 'Jack' if current_player == 'John' else 'John'
+
+
+if __name__ == "__main__":
+    main()
