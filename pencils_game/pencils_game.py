@@ -1,71 +1,54 @@
 import random
 
-def input_pencils():
-    while True:
-        print("How many pencils would you like to use:")
-        pencils = input("> ")
-        if not pencils.isdigit():
-            print("The number of pencils should be numeric")
-            continue
-        pencils = int(pencils)
-        if pencils <= 0:
-            print("The number of pencils should be positive")
-            continue
-        return pencils
-
-def input_first_player(names):
-    while True:
-        print(f"Who will be the first ({names[0]}, {names[1]}):")
-        player = input("> ")
-        if player not in names:
-            print(f"Choose between '{names[0]}' and '{names[1]}'")
-            continue
-        return player
-
-def input_take(pencils_left):
-    while True:
-        taken = input()
-        if taken not in ('1', '2', '3'):
-            print("Possible values: '1', '2' or '3'")
-            continue
-        taken = int(taken)
-        if taken > pencils_left:
-            print("Too many pencils were taken")
-            continue
-        return taken
-
-def bot_move(pencils_left):
-    if pencils_left == 1:
-        return 1
-    if pencils_left % 4 == 1:
-        return random.choice([1, 2, 3])
-    remainder = pencils_left % 4
-    if remainder == 0:
-        return 3
-    elif remainder == 3:
-        return 2
+def bot_move(pencils):
+    if pencils % 4 == 0:
+        return random.randint(1, 3)
     else:
-        return 1
+        return pencils % 4
 
-def main():
-    players = ["John", "Jack"]
-    pencils = input_pencils()
-    current = input_first_player(players)
-    other = players[1] if current == players[0] else players[0]
+players = ["John", "Jack"]
 
-    while pencils > 0:
-        print('|' * pencils)
+while True:
+    pencils = input("How many pencils would you like to use:\n")
+    if not pencils.isdigit():
+        print("The number of pencils should be numeric")
+        continue
+    pencils = int(pencils)
+    if pencils <= 0:
+        print("The number of pencils should be positive")
+        continue
+    break
+
+while True:
+    first = input(f"Who will be the first ({players[0]}, {players[1]}):\n")
+    if first not in players:
+        print(f"Choose between '{players[0]}' and '{players[1]}'")
+        continue
+    break
+
+print("|" * pencils)
+
+current = first
+while pencils > 0:
+    if current == "Jack":
+        take = bot_move(pencils)
+        print("Jack's turn:")
+        print(take)
+    else:
         print(f"{current}'s turn:")
-        if current == "Jack":
-            taken = bot_move(pencils)
-            print(taken)
-        else:
-            taken = input_take(pencils)
-        pencils -= taken
-        if pencils == 0:
-            print(f"{other} won!")
+        while True:
+            take = input()
+            if take not in ["1", "2", "3"]:
+                print("Possible values: '1', '2' or '3'")
+                continue
+            take = int(take)
+            if take > pencils:
+                print("Too many pencils were taken")
+                continue
             break
-        current, other = other, current
-
-if __name__ == "__main__":
-    main()
+    pencils -= take
+    if pencils == 0:
+        print(f"{'Jack' if current == 'John' else 'John'} won!")
+        break
+    print("|" * pencils)
+    current = "Jack" if current == "John" else "John"
